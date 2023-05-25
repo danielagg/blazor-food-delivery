@@ -1,5 +1,5 @@
 ﻿@page "/counter"
-@page "/counter/{incrementByUrlSlug}"
+@page "/counter/{incrementByUrlSlug:int}"
 
 <PageTitle>Counter</PageTitle>
 
@@ -13,15 +13,14 @@
     private int currentCount = 0;
 
     [Parameter]
-    public string? IncrementByUrlSlug { get; set; }
+    public int? IncrementByUrlSlug { get; set; }
 
     [Parameter]
-    public int IncrementBy { get; set; } = 1;
+    public int IncrementBy { get; set; }
 
     protected override Task OnParametersSetAsync()
     {
-        if (!string.IsNullOrEmpty(IncrementByUrlSlug))
-            IncrementBy = int.Parse(IncrementByUrlSlug);
+        IncrementBy = IncrementByUrlSlug.HasValue ? IncrementByUrlSlug.Value : 1;
 
         return base.OnParametersSetAsync();
     }
