@@ -1,0 +1,35 @@
+﻿@page "/todo-list"
+
+<PageTitle>Todo List</PageTitle>
+
+<h1>Todo List</h1>
+
+<InputText placeholder="Write your todo item here..." @bind-Value="@TodoItemToAdd" />
+<button @onclick="@OnAdd" >Add</button>
+
+@if (TodoItems.Any()) {
+    <ul>
+        @foreach (var todoItem in TodoItems)
+        {
+            <li><div>
+                <span>@todoItem</span>
+                <span @onclick="() => OnDelete(todoItem)">X</span>
+            </div></li>
+        }
+    </ul>
+}
+
+@code {
+
+    public string TodoItemToAdd { get; set; } = string.Empty;
+
+    public List<string> TodoItems { get; set; } = new();
+
+    public void OnAdd()
+    {
+        TodoItems.Add(TodoItemToAdd);
+        TodoItemToAdd = string.Empty;
+    }
+
+    public void OnDelete(string todoItem) => TodoItems.Remove(todoItem);
+}
